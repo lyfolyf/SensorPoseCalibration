@@ -61,9 +61,13 @@ namespace SensorPoseCalibration
 
         private void buttonRemove_Click(object sender, EventArgs e)
         {
-            pointCloudParam.PointCloudInfoLst.RemoveAt(treeViewPointLst.SelectedNode.Index);
-            UpdateTreeView();
+            if(treeViewPointLst.SelectedNode != null)
+            {
+                pointCloudParam.PointCloudInfoLst.RemoveAt(treeViewPointLst.SelectedNode.Index);
+                UpdateTreeView();
+            }
         }
+        
 
         private void buttonOK_Click(object sender, EventArgs e)
         {

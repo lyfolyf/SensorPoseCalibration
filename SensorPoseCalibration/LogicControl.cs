@@ -13,6 +13,8 @@ namespace SensorPoseCalibration
     {
         public ParamManager paramManager;
         IntPtr poseCalibAlgo;
+        public static EventHandler OnPointCloudListChanged;
+        public static EventHandler OnPointCloudColorChanged;
 
         public LogicControl()
         {
@@ -88,8 +90,8 @@ namespace SensorPoseCalibration
             PoseCalibDLL.SetAxisDir(poseCalibAlgo, 2, true);
             PoseCalibDLL.SetSensorLineDir(poseCalibAlgo, true);
 
-            double[] result_pose = { 0.0, 0.0, 0.9 };
-            double final_cost = -1.0;
+            double[] result_pose = { 0.0, 0.0, 0.0 };
+            double final_cost = 0;
             if (!PoseCalibDLL.ComputeSensorPose(poseCalibAlgo, ref result_pose[0], ref final_cost))
             {
                 errCode = "ComputeSensorPose Error";

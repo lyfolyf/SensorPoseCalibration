@@ -1,6 +1,6 @@
 ﻿namespace SensorPoseCalibration
 {
-    partial class Form2
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,36 +29,18 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("点云0");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("点云1");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("点云2");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("点云3");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("点云4");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("校正前", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4,
-            treeNode5});
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("点云0");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("点云1");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("点云2");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("点云3");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("点云4");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("校正后", new System.Windows.Forms.TreeNode[] {
-            treeNode7,
-            treeNode8,
-            treeNode9,
-            treeNode10,
-            treeNode11});
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("");
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("");
             ComponentLib.ButtonEx.ShapeParam shapeParam1 = new ComponentLib.ButtonEx.ShapeParam();
             ComponentLib.ButtonEx.ShapeParam shapeParam2 = new ComponentLib.ButtonEx.ShapeParam();
-            this.panelEx1 = new ComponentLib.PanelEx();
-            this.panelEx2 = new ComponentLib.PanelEx();
-            this.treeViewCloud = new ComponentLib.TreeViewEx();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.panelEx1 = new ComponentLib.PanelEx();
+            this.map3D1 = new UserControls.Map3D();
+            this.panelEx3 = new ComponentLib.PanelEx();
+            this.labelEx4 = new ComponentLib.LabelEx();
+            this.propertyGridEx3 = new ComponentLib.PropertyGridEx();
+            this.treeViewCloud = new ComponentLib.TreeViewEx();
+            this.panelEx2 = new ComponentLib.PanelEx();
             this.labelEx2 = new ComponentLib.LabelEx();
             this.propertyGridEx2 = new ComponentLib.PropertyGridEx();
             this.labelEx3 = new ComponentLib.LabelEx();
@@ -79,11 +61,18 @@
             this.点云查看ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.项目管理MToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.title1 = new ComponentLib.Title();
-            this.map3D1 = new UserControls.Map3D();
             this.panelEx1.SuspendLayout();
+            this.panelEx3.SuspendLayout();
             this.panelEx2.SuspendLayout();
             this.menuStripEx1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "eye.png");
+            this.imageList1.Images.SetKeyName(1, "eye2.png");
             // 
             // panelEx1
             // 
@@ -94,7 +83,7 @@
             this.panelEx1.BoundColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.panelEx1.BoundColorEnable = false;
             this.panelEx1.Controls.Add(this.map3D1);
-            this.panelEx1.Controls.Add(this.treeViewCloud);
+            this.panelEx1.Controls.Add(this.panelEx3);
             this.panelEx1.Controls.Add(this.panelEx2);
             this.panelEx1.Controls.Add(this.menuStripEx1);
             this.panelEx1.Controls.Add(this.title1);
@@ -102,8 +91,123 @@
             this.panelEx1.GlobalStyleEnable = false;
             this.panelEx1.Location = new System.Drawing.Point(0, 0);
             this.panelEx1.Name = "panelEx1";
-            this.panelEx1.Size = new System.Drawing.Size(966, 647);
+            this.panelEx1.Size = new System.Drawing.Size(1160, 647);
             this.panelEx1.TabIndex = 1;
+            // 
+            // map3D1
+            // 
+            this.map3D1.AxisColorX = System.Drawing.Color.Red;
+            this.map3D1.AxisColorY = System.Drawing.Color.Green;
+            this.map3D1.AxisColorZ = System.Drawing.Color.Blue;
+            this.map3D1.bResetTrackBall = false;
+            this.map3D1.ColorDisMax = 5D;
+            this.map3D1.ColorDisMin = -5D;
+            this.map3D1.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.map3D1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.map3D1.EnableMouseEvents = true;
+            this.map3D1.EnableZoom = true;
+            this.map3D1.ForeColor = System.Drawing.Color.Yellow;
+            this.map3D1.GridCellCount = 10;
+            this.map3D1.GridShowXY = false;
+            this.map3D1.GridShowXZ = false;
+            this.map3D1.GridShowYZ = false;
+            this.map3D1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.map3D1.IsUseTexture = false;
+            this.map3D1.Location = new System.Drawing.Point(200, 55);
+            this.map3D1.Name = "map3D1";
+            this.map3D1.PixelsPerMM = 50D;
+            this.map3D1.Size = new System.Drawing.Size(709, 592);
+            this.map3D1.TabIndex = 21;
+            this.map3D1.Tag = "";
+            this.map3D1.ViewMode = CommonStruct.Type3D.ViewMode.Default;
+            this.map3D1.Zoom = 1D;
+            // 
+            // panelEx3
+            // 
+            this.panelEx3.BackColor = System.Drawing.Color.White;
+            this.panelEx3.BackColorGradient = System.Drawing.Color.Empty;
+            this.panelEx3.BackColorTransparent = 0;
+            this.panelEx3.BackImage = ((System.Drawing.Image)(resources.GetObject("panelEx3.BackImage")));
+            this.panelEx3.BoundColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.panelEx3.BoundColorEnable = false;
+            this.panelEx3.Controls.Add(this.labelEx4);
+            this.panelEx3.Controls.Add(this.propertyGridEx3);
+            this.panelEx3.Controls.Add(this.treeViewCloud);
+            this.panelEx3.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelEx3.GlobalStyleEnable = false;
+            this.panelEx3.Location = new System.Drawing.Point(0, 55);
+            this.panelEx3.Name = "panelEx3";
+            this.panelEx3.Size = new System.Drawing.Size(200, 592);
+            this.panelEx3.TabIndex = 22;
+            // 
+            // labelEx4
+            // 
+            this.labelEx4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelEx4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(210)))), ((int)(((byte)(255)))));
+            this.labelEx4.BackImage = ((System.Drawing.Image)(resources.GetObject("labelEx4.BackImage")));
+            this.labelEx4.BoundColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.labelEx4.BoundColorEnable = false;
+            this.labelEx4.ForeColor = System.Drawing.Color.Black;
+            this.labelEx4.GlobalStyleEnable = false;
+            this.labelEx4.Location = new System.Drawing.Point(1, 386);
+            this.labelEx4.Margin = new System.Windows.Forms.Padding(0);
+            this.labelEx4.Name = "labelEx4";
+            this.labelEx4.Size = new System.Drawing.Size(197, 20);
+            this.labelEx4.TabIndex = 22;
+            this.labelEx4.Text = "点云参数";
+            // 
+            // propertyGridEx3
+            // 
+            this.propertyGridEx3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.propertyGridEx3.BackColor = System.Drawing.Color.White;
+            this.propertyGridEx3.BackColorGradient = System.Drawing.Color.Empty;
+            this.propertyGridEx3.BackColorTransparent = 100;
+            this.propertyGridEx3.BackImage = ((System.Drawing.Image)(resources.GetObject("propertyGridEx3.BackImage")));
+            this.propertyGridEx3.ButtonBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.propertyGridEx3.ButtonBoundColor = System.Drawing.Color.Gray;
+            this.propertyGridEx3.CategoryBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(255)))));
+            this.propertyGridEx3.ForeColor = System.Drawing.Color.Black;
+            this.propertyGridEx3.GlobalStyleEnable = false;
+            this.propertyGridEx3.ItemHeight = 20;
+            this.propertyGridEx3.Location = new System.Drawing.Point(1, 409);
+            this.propertyGridEx3.Margin = new System.Windows.Forms.Padding(0);
+            this.propertyGridEx3.Name = "propertyGridEx3";
+            this.propertyGridEx3.ScrollarBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.propertyGridEx3.Size = new System.Drawing.Size(197, 165);
+            this.propertyGridEx3.TabIndex = 21;
+            this.propertyGridEx3.Text = "propertyGridEx3";
+            // 
+            // treeViewCloud
+            // 
+            this.treeViewCloud.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.treeViewCloud.BackColor = System.Drawing.Color.White;
+            this.treeViewCloud.BackColorGradient = System.Drawing.Color.Empty;
+            this.treeViewCloud.BackColorTransparent = 0;
+            this.treeViewCloud.BackImage = ((System.Drawing.Image)(resources.GetObject("treeViewCloud.BackImage")));
+            this.treeViewCloud.BoundColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))));
+            this.treeViewCloud.CollapseImageIndex = -1;
+            this.treeViewCloud.ExpandImageIndex = -1;
+            this.treeViewCloud.ForeColor = System.Drawing.Color.Black;
+            this.treeViewCloud.GlobalStyleEnable = false;
+            this.treeViewCloud.ImageList = this.imageList1;
+            this.treeViewCloud.ItemHeight = 20;
+            this.treeViewCloud.Location = new System.Drawing.Point(1, 3);
+            this.treeViewCloud.Name = "treeViewCloud";
+            this.treeViewCloud.ScrollarBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
+            this.treeViewCloud.ScrollarTriangleColor = System.Drawing.Color.Black;
+            treeNode1.Name = "";
+            treeNode1.Text = "";
+            this.treeViewCloud.SelectedNode = treeNode1;
+            this.treeViewCloud.ShowExpand = true;
+            this.treeViewCloud.Size = new System.Drawing.Size(197, 367);
+            this.treeViewCloud.TabIndex = 20;
+            this.treeViewCloud.Text = "treeViewEx1";
+            this.treeViewCloud.OnNodeImageClick += new ComponentLib.TreeViewEx.NodeImageClickDelegate(this.treeViewCloud_OnNodeImageClick);
+            this.treeViewCloud.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewCloud_NodeMouseClick);
             // 
             // panelEx2
             // 
@@ -123,79 +227,10 @@
             this.panelEx2.Controls.Add(this.labelEx1);
             this.panelEx2.Dock = System.Windows.Forms.DockStyle.Right;
             this.panelEx2.GlobalStyleEnable = false;
-            this.panelEx2.Location = new System.Drawing.Point(715, 55);
+            this.panelEx2.Location = new System.Drawing.Point(909, 55);
             this.panelEx2.Name = "panelEx2";
             this.panelEx2.Size = new System.Drawing.Size(251, 592);
             this.panelEx2.TabIndex = 5;
-            // 
-            // treeViewCloud
-            // 
-            this.treeViewCloud.BackColor = System.Drawing.Color.White;
-            this.treeViewCloud.BackColorGradient = System.Drawing.Color.Empty;
-            this.treeViewCloud.BackColorTransparent = 0;
-            this.treeViewCloud.BackImage = ((System.Drawing.Image)(resources.GetObject("treeViewCloud.BackImage")));
-            this.treeViewCloud.BoundColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))));
-            this.treeViewCloud.CollapseImageIndex = -1;
-            this.treeViewCloud.Dock = System.Windows.Forms.DockStyle.Left;
-            this.treeViewCloud.ExpandImageIndex = -1;
-            this.treeViewCloud.ForeColor = System.Drawing.Color.Black;
-            this.treeViewCloud.GlobalStyleEnable = false;
-            this.treeViewCloud.ImageList = this.imageList1;
-            this.treeViewCloud.ItemHeight = 20;
-            this.treeViewCloud.Location = new System.Drawing.Point(0, 55);
-            this.treeViewCloud.Name = "treeViewCloud";
-            treeNode1.ImageIndex = 0;
-            treeNode1.Name = "点云0";
-            treeNode1.Text = "点云0";
-            treeNode2.ImageIndex = 0;
-            treeNode2.Name = "点云1";
-            treeNode2.Text = "点云1";
-            treeNode3.ImageIndex = 0;
-            treeNode3.Name = "点云2";
-            treeNode3.Text = "点云2";
-            treeNode4.ImageIndex = 0;
-            treeNode4.Name = "点云3";
-            treeNode4.Text = "点云3";
-            treeNode5.ImageIndex = 0;
-            treeNode5.Name = "点云4";
-            treeNode5.Text = "点云4";
-            treeNode6.Name = "校正前";
-            treeNode6.Text = "校正前";
-            treeNode7.ImageIndex = 0;
-            treeNode7.Name = "点云0";
-            treeNode7.Text = "点云0";
-            treeNode8.ImageIndex = 0;
-            treeNode8.Name = "点云1";
-            treeNode8.Text = "点云1";
-            treeNode9.ImageIndex = 0;
-            treeNode9.Name = "点云2";
-            treeNode9.Text = "点云2";
-            treeNode10.ImageIndex = 0;
-            treeNode10.Name = "点云3";
-            treeNode10.Text = "点云3";
-            treeNode11.ImageIndex = 0;
-            treeNode11.Name = "点云4";
-            treeNode11.Text = "点云4";
-            treeNode12.Name = "校正后";
-            treeNode12.Text = "校正后";
-            this.treeViewCloud.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode6,
-            treeNode12});
-            this.treeViewCloud.ScrollarBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
-            this.treeViewCloud.ScrollarTriangleColor = System.Drawing.Color.Black;
-            treeNode13.Name = "";
-            treeNode13.Text = "";
-            this.treeViewCloud.SelectedNode = treeNode13;
-            this.treeViewCloud.ShowExpand = true;
-            this.treeViewCloud.Size = new System.Drawing.Size(244, 592);
-            this.treeViewCloud.TabIndex = 20;
-            this.treeViewCloud.Text = "treeViewEx1";
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "VolumeBlack.png");
             // 
             // labelEx2
             // 
@@ -207,7 +242,7 @@
             this.labelEx2.BoundColorEnable = false;
             this.labelEx2.ForeColor = System.Drawing.Color.Black;
             this.labelEx2.GlobalStyleEnable = false;
-            this.labelEx2.Location = new System.Drawing.Point(3, 313);
+            this.labelEx2.Location = new System.Drawing.Point(2, 291);
             this.labelEx2.Margin = new System.Windows.Forms.Padding(0);
             this.labelEx2.Name = "labelEx2";
             this.labelEx2.Size = new System.Drawing.Size(245, 20);
@@ -228,11 +263,11 @@
             this.propertyGridEx2.ForeColor = System.Drawing.Color.Black;
             this.propertyGridEx2.GlobalStyleEnable = false;
             this.propertyGridEx2.ItemHeight = 20;
-            this.propertyGridEx2.Location = new System.Drawing.Point(4, 333);
+            this.propertyGridEx2.Location = new System.Drawing.Point(3, 311);
             this.propertyGridEx2.Margin = new System.Windows.Forms.Padding(0);
             this.propertyGridEx2.Name = "propertyGridEx2";
             this.propertyGridEx2.ScrollarBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.propertyGridEx2.Size = new System.Drawing.Size(245, 192);
+            this.propertyGridEx2.Size = new System.Drawing.Size(245, 227);
             this.propertyGridEx2.TabIndex = 18;
             this.propertyGridEx2.Text = "propertyGridEx2";
             // 
@@ -293,7 +328,7 @@
             this.propertyGridEx1.Margin = new System.Windows.Forms.Padding(0);
             this.propertyGridEx1.Name = "propertyGridEx1";
             this.propertyGridEx1.ScrollarBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.propertyGridEx1.Size = new System.Drawing.Size(245, 185);
+            this.propertyGridEx1.Size = new System.Drawing.Size(245, 164);
             this.propertyGridEx1.TabIndex = 13;
             this.propertyGridEx1.Text = "propertyGridEx1";
             // 
@@ -308,7 +343,7 @@
             this.buttonCalibPose.BoundColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.buttonCalibPose.ForeColor = System.Drawing.Color.Black;
             this.buttonCalibPose.GlobalStyleEnable = false;
-            this.buttonCalibPose.Location = new System.Drawing.Point(4, 274);
+            this.buttonCalibPose.Location = new System.Drawing.Point(3, 252);
             this.buttonCalibPose.Margin = new System.Windows.Forms.Padding(0);
             this.buttonCalibPose.Name = "buttonCalibPose";
             shapeParam1.bottomLeft = 2;
@@ -336,7 +371,7 @@
             this.buttonSavePose.BoundColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.buttonSavePose.ForeColor = System.Drawing.Color.Black;
             this.buttonSavePose.GlobalStyleEnable = false;
-            this.buttonSavePose.Location = new System.Drawing.Point(4, 538);
+            this.buttonSavePose.Location = new System.Drawing.Point(4, 552);
             this.buttonSavePose.Margin = new System.Windows.Forms.Padding(0);
             this.buttonSavePose.Name = "buttonSavePose";
             shapeParam2.bottomLeft = 2;
@@ -384,7 +419,7 @@
             this.项目管理MToolStripMenuItem});
             this.menuStripEx1.Location = new System.Drawing.Point(0, 30);
             this.menuStripEx1.Name = "menuStripEx1";
-            this.menuStripEx1.Size = new System.Drawing.Size(966, 25);
+            this.menuStripEx1.Size = new System.Drawing.Size(1160, 25);
             this.menuStripEx1.TabIndex = 9;
             this.menuStripEx1.Text = "menuStripEx1";
             // 
@@ -423,14 +458,16 @@
             // 计算姿态ToolStripMenuItem
             // 
             this.计算姿态ToolStripMenuItem.Name = "计算姿态ToolStripMenuItem";
-            this.计算姿态ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.计算姿态ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.计算姿态ToolStripMenuItem.Text = "计算姿态";
+            this.计算姿态ToolStripMenuItem.Click += new System.EventHandler(this.计算姿态ToolStripMenuItem_Click);
             // 
             // 保存结果ToolStripMenuItem
             // 
             this.保存结果ToolStripMenuItem.Name = "保存结果ToolStripMenuItem";
-            this.保存结果ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.保存结果ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.保存结果ToolStripMenuItem.Text = "保存结果";
+            this.保存结果ToolStripMenuItem.Click += new System.EventHandler(this.保存结果ToolStripMenuItem_Click);
             // 
             // 视图VToolStripMenuItem
             // 
@@ -475,55 +512,28 @@
             this.title1.GlobalStyleEnable = false;
             this.title1.IconImage = null;
             this.title1.Location = new System.Drawing.Point(0, 0);
-            this.title1.MaximizeBox = true;
-            this.title1.MinimizeBox = true;
+            this.title1.MaximizeBox = false;
+            this.title1.MinimizeBox = false;
             this.title1.Name = "title1";
             this.title1.TabIndex = 0;
             this.title1.Text = "Sensor Pose Calibration";
             this.title1.TextAlignment = System.Drawing.StringAlignment.Center;
             this.title1.TitleHeight = 30;
             // 
-            // map3D1
-            // 
-            this.map3D1.AxisColorX = System.Drawing.Color.Red;
-            this.map3D1.AxisColorY = System.Drawing.Color.Green;
-            this.map3D1.AxisColorZ = System.Drawing.Color.Blue;
-            this.map3D1.bResetTrackBall = false;
-            this.map3D1.ColorDisMax = 5D;
-            this.map3D1.ColorDisMin = -5D;
-            this.map3D1.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.map3D1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.map3D1.EnableMouseEvents = true;
-            this.map3D1.EnableZoom = true;
-            this.map3D1.ForeColor = System.Drawing.Color.Yellow;
-            this.map3D1.GridCellCount = 10;
-            this.map3D1.GridShowXY = false;
-            this.map3D1.GridShowXZ = false;
-            this.map3D1.GridShowYZ = false;
-            this.map3D1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.map3D1.IsUseTexture = false;
-            this.map3D1.Location = new System.Drawing.Point(244, 55);
-            this.map3D1.Name = "map3D1";
-            this.map3D1.PixelsPerMM = 50D;
-            this.map3D1.Size = new System.Drawing.Size(471, 592);
-            this.map3D1.TabIndex = 21;
-            this.map3D1.Tag = "";
-            this.map3D1.ViewMode = CommonStruct.Type3D.ViewMode.Default;
-            this.map3D1.Zoom = 1D;
-            // 
-            // Form2
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(966, 647);
+            this.ClientSize = new System.Drawing.Size(1160, 647);
             this.Controls.Add(this.panelEx1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Form2";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form2";
             this.Load += new System.EventHandler(this.Form2_Load);
             this.panelEx1.ResumeLayout(false);
             this.panelEx1.PerformLayout();
+            this.panelEx3.ResumeLayout(false);
             this.panelEx2.ResumeLayout(false);
             this.panelEx2.PerformLayout();
             this.menuStripEx1.ResumeLayout(false);
@@ -559,5 +569,8 @@
         private System.Windows.Forms.ToolStripMenuItem 项目管理MToolStripMenuItem;
         private System.Windows.Forms.ImageList imageList1;
         private UserControls.Map3D map3D1;
+        private ComponentLib.PanelEx panelEx3;
+        private ComponentLib.LabelEx labelEx4;
+        private ComponentLib.PropertyGridEx propertyGridEx3;
     }
 }

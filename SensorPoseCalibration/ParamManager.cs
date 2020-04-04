@@ -2,6 +2,7 @@
 using ComponentLib;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -16,9 +17,8 @@ namespace SensorPoseCalibration
     public class ParamManager
     {
         static Type[] types = new Type[] { typeof(PoseCalibrationParam), typeof(PoseCalibrationResult), typeof(PointCloudParam), typeof(PointCloudInfo), typeof(SaveFilePath), typeof(OpenFilePath) };
-
         private Dictionary<string, PoseCalibrationParam> _poseParamDic;
-
+       
         public ParamManager()
         {
             _poseParamDic = new Dictionary<string, PoseCalibrationParam>();
@@ -30,9 +30,9 @@ namespace SensorPoseCalibration
             if (paramLst == default(List<PoseCalibrationParam>))
                 return false;
             _poseParamDic = paramLst.ToDictionary(p => p.Name, p => p);
-            return true;;
+            return true; ;
         }
-        
+
         private T DeserializeFromXml<T>(string filePath, Type[] types)
         {
             try
@@ -89,9 +89,9 @@ namespace SensorPoseCalibration
 
         public void SetSelectedParam(string name)
         {
-            if(_poseParamDic.Keys.Contains(name))
+            if (_poseParamDic.Keys.Contains(name))
             {
-                _poseParamDic = _poseParamDic.ToDictionary(p=>p.Key,p=> new PoseCalibrationParam(p.Value) { IsConfig = (p.Key == name) });
+                _poseParamDic = _poseParamDic.ToDictionary(p => p.Key, p => new PoseCalibrationParam(p.Value) { IsConfig = (p.Key == name) });
             }
         }
 
@@ -143,7 +143,7 @@ namespace SensorPoseCalibration
         [Description("设置Z夹角")]
         [PropertyGridEx.PropertyOrder(3)]
         public double InitAngleZ { get; set; }
-                
+
         [Browsable(false)]
         public string Name { get; set; }
 
@@ -325,7 +325,7 @@ namespace SensorPoseCalibration
         [Description("设置Z轴坐标")]
         [PropertyGridEx.PropertyOrder(9)]
         public double ZPosition { get; set; }
-        
+
 
         public PointCloudInfo()
         {
@@ -344,7 +344,7 @@ namespace SensorPoseCalibration
             return cloneObj;
         }
     }
-    
+
     public class PointCloudParam : PropertyGridEx.IPropertyFormEditBase, ICloneable
     {
         public List<PointCloudInfo> PointCloudInfoLst;
@@ -358,7 +358,17 @@ namespace SensorPoseCalibration
         {
             PointCloudConfig configForm = new PointCloudConfig(this);
             if (configForm.ShowDialog() == DialogResult.OK)
+            {
                 PointCloudInfoLst = configForm.pointCloudParam.PointCloudInfoLst;
+                NotifyPointCloudListChanged();
+            }
+               
+        }
+
+        private void NotifyPointCloudListChanged()
+        {
+            if (LogicControl.OnPointCloudListChanged != null)
+                LogicControl.OnPointCloudListChanged.Invoke(new object(), new EventArgs());
         }
 
         public object Clone()
@@ -372,6 +382,34 @@ namespace SensorPoseCalibration
         public override string ToString()
         {
             return "集合";
+        }
+    }
+
+    public class PointCloudShowParam
+    {
+        private Color _displayColor;
+
+        [Category("点云显示")]
+        [DisplayName("颜色")]
+        [Description("设置点云显示颜色")]
+        [PropertyGridEx.PropertyOrder(0)]
+        public Color DisplayColor
+        {
+            get
+            {
+                return _displayColor;
+            }
+            set
+            {
+                _displayColor = value;
+                if (LogicControl.OnPointCloudColorChanged != null)
+                    LogicControl.OnPointCloudColorChanged.Invoke(new object(),new EventArgs());
+            }
+        }
+        
+        public PointCloudShowParam(Color color)
+        {
+            _displayColor = color;
         }
     }
     

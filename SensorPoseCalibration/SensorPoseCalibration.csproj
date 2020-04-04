@@ -41,10 +41,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\CommonStruct.dll</HintPath>
     </Reference>
-    <Reference Include="ComponentLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Source\ExtDesigner\ComponentLib\bin\Debug\ComponentLib.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
@@ -63,17 +59,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form2.cs">
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form2.Designer.cs">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Form\NewProject.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form\NewProject.Designer.cs">
       <DependentUpon>NewProject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\Loading.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\Loading.Designer.cs">
+      <DependentUpon>Loading.cs</DependentUpon>
     </Compile>
     <Compile Include="LogicControl.cs" />
     <Compile Include="ParamManager.cs" />
@@ -91,8 +93,11 @@
       <DependentUpon>ProjectConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form2.resx">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\Loading.resx">
+      <DependentUpon>Loading.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\NewProject.resx">
       <DependentUpon>NewProject.cs</DependentUpon>
