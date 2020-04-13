@@ -34,6 +34,13 @@
             ComponentLib.ButtonEx.ShapeParam shapeParam1 = new ComponentLib.ButtonEx.ShapeParam();
             ComponentLib.ButtonEx.ShapeParam shapeParam2 = new ComponentLib.ButtonEx.ShapeParam();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ToolStripMenuItemFront = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemBack = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemLeft = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemRight = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemUp = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemDown = new System.Windows.Forms.ToolStripMenuItem();
             this.panelEx1 = new ComponentLib.PanelEx();
             this.map3D1 = new UserControls.Map3D();
             this.panelEx3 = new ComponentLib.PanelEx();
@@ -49,21 +56,26 @@
             this.buttonCalibPose = new ComponentLib.ButtonEx();
             this.buttonSavePose = new ComponentLib.ButtonEx();
             this.labelEx1 = new ComponentLib.LabelEx();
+            this.panelEx4 = new ComponentLib.PanelEx();
+            this.textBoxEx1 = new ComponentLib.TextBoxEx();
+            this.labelEx5 = new ComponentLib.LabelEx();
             this.menuStripEx1 = new ComponentLib.MenuStripEx();
             this.文件FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.加载配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.保存配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.另存为ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.运行RToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.计算姿态ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.保存结果ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.视图VToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.调试窗口ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.点云查看ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.系统日志ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.项目管理MToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.title1 = new ComponentLib.Title();
+            this.contextMenuStrip1.SuspendLayout();
             this.panelEx1.SuspendLayout();
             this.panelEx3.SuspendLayout();
             this.panelEx2.SuspendLayout();
+            this.panelEx4.SuspendLayout();
             this.menuStripEx1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,6 +85,60 @@
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList1.Images.SetKeyName(0, "eye.png");
             this.imageList1.Images.SetKeyName(1, "eye2.png");
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItemFront,
+            this.ToolStripMenuItemBack,
+            this.ToolStripMenuItemLeft,
+            this.ToolStripMenuItemRight,
+            this.ToolStripMenuItemUp,
+            this.ToolStripMenuItemDown});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(113, 136);
+            // 
+            // ToolStripMenuItemFront
+            // 
+            this.ToolStripMenuItemFront.Name = "ToolStripMenuItemFront";
+            this.ToolStripMenuItemFront.Size = new System.Drawing.Size(112, 22);
+            this.ToolStripMenuItemFront.Text = "前视图";
+            this.ToolStripMenuItemFront.Click += new System.EventHandler(this.ToolStripMenuItem_Click);
+            // 
+            // ToolStripMenuItemBack
+            // 
+            this.ToolStripMenuItemBack.Name = "ToolStripMenuItemBack";
+            this.ToolStripMenuItemBack.Size = new System.Drawing.Size(112, 22);
+            this.ToolStripMenuItemBack.Text = "后视图";
+            this.ToolStripMenuItemBack.Click += new System.EventHandler(this.ToolStripMenuItem_Click);
+            // 
+            // ToolStripMenuItemLeft
+            // 
+            this.ToolStripMenuItemLeft.Name = "ToolStripMenuItemLeft";
+            this.ToolStripMenuItemLeft.Size = new System.Drawing.Size(112, 22);
+            this.ToolStripMenuItemLeft.Text = "左视图";
+            this.ToolStripMenuItemLeft.Click += new System.EventHandler(this.ToolStripMenuItem_Click);
+            // 
+            // ToolStripMenuItemRight
+            // 
+            this.ToolStripMenuItemRight.Name = "ToolStripMenuItemRight";
+            this.ToolStripMenuItemRight.Size = new System.Drawing.Size(112, 22);
+            this.ToolStripMenuItemRight.Text = "右视图";
+            this.ToolStripMenuItemRight.Click += new System.EventHandler(this.ToolStripMenuItem_Click);
+            // 
+            // ToolStripMenuItemUp
+            // 
+            this.ToolStripMenuItemUp.Name = "ToolStripMenuItemUp";
+            this.ToolStripMenuItemUp.Size = new System.Drawing.Size(112, 22);
+            this.ToolStripMenuItemUp.Text = "俯视图";
+            this.ToolStripMenuItemUp.Click += new System.EventHandler(this.ToolStripMenuItem_Click);
+            // 
+            // ToolStripMenuItemDown
+            // 
+            this.ToolStripMenuItemDown.Name = "ToolStripMenuItemDown";
+            this.ToolStripMenuItemDown.Size = new System.Drawing.Size(112, 22);
+            this.ToolStripMenuItemDown.Text = "仰视图";
+            this.ToolStripMenuItemDown.Click += new System.EventHandler(this.ToolStripMenuItem_Click);
             // 
             // panelEx1
             // 
@@ -85,13 +151,14 @@
             this.panelEx1.Controls.Add(this.map3D1);
             this.panelEx1.Controls.Add(this.panelEx3);
             this.panelEx1.Controls.Add(this.panelEx2);
+            this.panelEx1.Controls.Add(this.panelEx4);
             this.panelEx1.Controls.Add(this.menuStripEx1);
             this.panelEx1.Controls.Add(this.title1);
             this.panelEx1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelEx1.GlobalStyleEnable = false;
             this.panelEx1.Location = new System.Drawing.Point(0, 0);
             this.panelEx1.Name = "panelEx1";
-            this.panelEx1.Size = new System.Drawing.Size(1160, 647);
+            this.panelEx1.Size = new System.Drawing.Size(1160, 700);
             this.panelEx1.TabIndex = 1;
             // 
             // map3D1
@@ -102,6 +169,7 @@
             this.map3D1.bResetTrackBall = false;
             this.map3D1.ColorDisMax = 5D;
             this.map3D1.ColorDisMin = -5D;
+            this.map3D1.ContextMenuStrip = this.contextMenuStrip1;
             this.map3D1.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.map3D1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.map3D1.EnableMouseEvents = true;
@@ -116,7 +184,7 @@
             this.map3D1.Location = new System.Drawing.Point(200, 55);
             this.map3D1.Name = "map3D1";
             this.map3D1.PixelsPerMM = 50D;
-            this.map3D1.Size = new System.Drawing.Size(709, 592);
+            this.map3D1.Size = new System.Drawing.Size(709, 522);
             this.map3D1.TabIndex = 21;
             this.map3D1.Tag = "";
             this.map3D1.ViewMode = CommonStruct.Type3D.ViewMode.Default;
@@ -137,7 +205,7 @@
             this.panelEx3.GlobalStyleEnable = false;
             this.panelEx3.Location = new System.Drawing.Point(0, 55);
             this.panelEx3.Name = "panelEx3";
-            this.panelEx3.Size = new System.Drawing.Size(200, 592);
+            this.panelEx3.Size = new System.Drawing.Size(200, 522);
             this.panelEx3.TabIndex = 22;
             // 
             // labelEx4
@@ -150,7 +218,7 @@
             this.labelEx4.BoundColorEnable = false;
             this.labelEx4.ForeColor = System.Drawing.Color.Black;
             this.labelEx4.GlobalStyleEnable = false;
-            this.labelEx4.Location = new System.Drawing.Point(1, 386);
+            this.labelEx4.Location = new System.Drawing.Point(1, 305);
             this.labelEx4.Margin = new System.Windows.Forms.Padding(0);
             this.labelEx4.Name = "labelEx4";
             this.labelEx4.Size = new System.Drawing.Size(197, 20);
@@ -171,11 +239,11 @@
             this.propertyGridEx3.ForeColor = System.Drawing.Color.Black;
             this.propertyGridEx3.GlobalStyleEnable = false;
             this.propertyGridEx3.ItemHeight = 20;
-            this.propertyGridEx3.Location = new System.Drawing.Point(1, 409);
+            this.propertyGridEx3.Location = new System.Drawing.Point(0, 325);
             this.propertyGridEx3.Margin = new System.Windows.Forms.Padding(0);
             this.propertyGridEx3.Name = "propertyGridEx3";
             this.propertyGridEx3.ScrollarBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.propertyGridEx3.Size = new System.Drawing.Size(197, 165);
+            this.propertyGridEx3.Size = new System.Drawing.Size(197, 181);
             this.propertyGridEx3.TabIndex = 21;
             this.propertyGridEx3.Text = "propertyGridEx3";
             // 
@@ -203,7 +271,7 @@
             treeNode1.Text = "";
             this.treeViewCloud.SelectedNode = treeNode1;
             this.treeViewCloud.ShowExpand = true;
-            this.treeViewCloud.Size = new System.Drawing.Size(197, 367);
+            this.treeViewCloud.Size = new System.Drawing.Size(197, 284);
             this.treeViewCloud.TabIndex = 20;
             this.treeViewCloud.Text = "treeViewEx1";
             this.treeViewCloud.OnNodeImageClick += new ComponentLib.TreeViewEx.NodeImageClickDelegate(this.treeViewCloud_OnNodeImageClick);
@@ -229,7 +297,7 @@
             this.panelEx2.GlobalStyleEnable = false;
             this.panelEx2.Location = new System.Drawing.Point(909, 55);
             this.panelEx2.Name = "panelEx2";
-            this.panelEx2.Size = new System.Drawing.Size(251, 592);
+            this.panelEx2.Size = new System.Drawing.Size(251, 522);
             this.panelEx2.TabIndex = 5;
             // 
             // labelEx2
@@ -238,11 +306,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelEx2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(210)))), ((int)(((byte)(255)))));
             this.labelEx2.BackImage = ((System.Drawing.Image)(resources.GetObject("labelEx2.BackImage")));
-            this.labelEx2.BoundColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.labelEx2.BoundColor = System.Drawing.Color.Empty;
             this.labelEx2.BoundColorEnable = false;
             this.labelEx2.ForeColor = System.Drawing.Color.Black;
             this.labelEx2.GlobalStyleEnable = false;
-            this.labelEx2.Location = new System.Drawing.Point(2, 291);
+            this.labelEx2.Location = new System.Drawing.Point(2, 321);
             this.labelEx2.Margin = new System.Windows.Forms.Padding(0);
             this.labelEx2.Name = "labelEx2";
             this.labelEx2.Size = new System.Drawing.Size(245, 20);
@@ -263,11 +331,11 @@
             this.propertyGridEx2.ForeColor = System.Drawing.Color.Black;
             this.propertyGridEx2.GlobalStyleEnable = false;
             this.propertyGridEx2.ItemHeight = 20;
-            this.propertyGridEx2.Location = new System.Drawing.Point(3, 311);
+            this.propertyGridEx2.Location = new System.Drawing.Point(3, 341);
             this.propertyGridEx2.Margin = new System.Windows.Forms.Padding(0);
             this.propertyGridEx2.Name = "propertyGridEx2";
             this.propertyGridEx2.ScrollarBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.propertyGridEx2.Size = new System.Drawing.Size(245, 227);
+            this.propertyGridEx2.Size = new System.Drawing.Size(245, 127);
             this.propertyGridEx2.TabIndex = 18;
             this.propertyGridEx2.Text = "propertyGridEx2";
             // 
@@ -328,7 +396,7 @@
             this.propertyGridEx1.Margin = new System.Windows.Forms.Padding(0);
             this.propertyGridEx1.Name = "propertyGridEx1";
             this.propertyGridEx1.ScrollarBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.propertyGridEx1.Size = new System.Drawing.Size(245, 164);
+            this.propertyGridEx1.Size = new System.Drawing.Size(245, 195);
             this.propertyGridEx1.TabIndex = 13;
             this.propertyGridEx1.Text = "propertyGridEx1";
             // 
@@ -343,7 +411,7 @@
             this.buttonCalibPose.BoundColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.buttonCalibPose.ForeColor = System.Drawing.Color.Black;
             this.buttonCalibPose.GlobalStyleEnable = false;
-            this.buttonCalibPose.Location = new System.Drawing.Point(3, 252);
+            this.buttonCalibPose.Location = new System.Drawing.Point(4, 282);
             this.buttonCalibPose.Margin = new System.Windows.Forms.Padding(0);
             this.buttonCalibPose.Name = "buttonCalibPose";
             shapeParam1.bottomLeft = 2;
@@ -371,7 +439,7 @@
             this.buttonSavePose.BoundColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.buttonSavePose.ForeColor = System.Drawing.Color.Black;
             this.buttonSavePose.GlobalStyleEnable = false;
-            this.buttonSavePose.Location = new System.Drawing.Point(4, 552);
+            this.buttonSavePose.Location = new System.Drawing.Point(4, 482);
             this.buttonSavePose.Margin = new System.Windows.Forms.Padding(0);
             this.buttonSavePose.Name = "buttonSavePose";
             shapeParam2.bottomLeft = 2;
@@ -405,6 +473,58 @@
             this.labelEx1.TabIndex = 7;
             this.labelEx1.Text = "项目选择";
             // 
+            // panelEx4
+            // 
+            this.panelEx4.BackColor = System.Drawing.Color.White;
+            this.panelEx4.BackColorGradient = System.Drawing.Color.Empty;
+            this.panelEx4.BackColorTransparent = 0;
+            this.panelEx4.BackImage = ((System.Drawing.Image)(resources.GetObject("panelEx4.BackImage")));
+            this.panelEx4.BoundColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.panelEx4.BoundColorEnable = false;
+            this.panelEx4.Controls.Add(this.textBoxEx1);
+            this.panelEx4.Controls.Add(this.labelEx5);
+            this.panelEx4.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelEx4.GlobalStyleEnable = false;
+            this.panelEx4.Location = new System.Drawing.Point(0, 577);
+            this.panelEx4.Name = "panelEx4";
+            this.panelEx4.Size = new System.Drawing.Size(1160, 123);
+            this.panelEx4.TabIndex = 23;
+            this.panelEx4.Visible = false;
+            // 
+            // textBoxEx1
+            // 
+            this.textBoxEx1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(210)))), ((int)(((byte)(255)))));
+            this.textBoxEx1.BackImage = null;
+            this.textBoxEx1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxEx1.BoundColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.textBoxEx1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxEx1.FocusColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.textBoxEx1.GlobalStyleEnable = false;
+            this.textBoxEx1.Location = new System.Drawing.Point(0, 20);
+            this.textBoxEx1.MouseOverColorEnable = false;
+            this.textBoxEx1.Multiline = true;
+            this.textBoxEx1.MultiLineCount = 7;
+            this.textBoxEx1.Name = "textBoxEx1";
+            this.textBoxEx1.ReadOnly = true;
+            this.textBoxEx1.Size = new System.Drawing.Size(1160, 103);
+            this.textBoxEx1.TabIndex = 24;
+            // 
+            // labelEx5
+            // 
+            this.labelEx5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.labelEx5.BackImage = ((System.Drawing.Image)(resources.GetObject("labelEx5.BackImage")));
+            this.labelEx5.BoundColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.labelEx5.BoundColorEnable = false;
+            this.labelEx5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelEx5.ForeColor = System.Drawing.Color.Black;
+            this.labelEx5.GlobalStyleEnable = false;
+            this.labelEx5.Location = new System.Drawing.Point(0, 0);
+            this.labelEx5.Margin = new System.Windows.Forms.Padding(0);
+            this.labelEx5.Name = "labelEx5";
+            this.labelEx5.Size = new System.Drawing.Size(1160, 20);
+            this.labelEx5.TabIndex = 23;
+            this.labelEx5.Text = "运行日志";
+            // 
             // menuStripEx1
             // 
             this.menuStripEx1.ArrowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
@@ -427,7 +547,8 @@
             // 
             this.文件FToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.加载配置ToolStripMenuItem,
-            this.保存配置ToolStripMenuItem});
+            this.保存配置ToolStripMenuItem,
+            this.另存为ToolStripMenuItem});
             this.文件FToolStripMenuItem.Name = "文件FToolStripMenuItem";
             this.文件FToolStripMenuItem.Size = new System.Drawing.Size(58, 21);
             this.文件FToolStripMenuItem.Text = "文件(&F)";
@@ -446,6 +567,13 @@
             this.保存配置ToolStripMenuItem.Text = "保存配置";
             this.保存配置ToolStripMenuItem.Click += new System.EventHandler(this.保存配置ToolStripMenuItem_Click);
             // 
+            // 另存为ToolStripMenuItem
+            // 
+            this.另存为ToolStripMenuItem.Name = "另存为ToolStripMenuItem";
+            this.另存为ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.另存为ToolStripMenuItem.Text = "另存配置";
+            this.另存为ToolStripMenuItem.Click += new System.EventHandler(this.另存为ToolStripMenuItem_Click);
+            // 
             // 运行RToolStripMenuItem
             // 
             this.运行RToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -458,41 +586,31 @@
             // 计算姿态ToolStripMenuItem
             // 
             this.计算姿态ToolStripMenuItem.Name = "计算姿态ToolStripMenuItem";
-            this.计算姿态ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.计算姿态ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.计算姿态ToolStripMenuItem.Text = "计算姿态";
             this.计算姿态ToolStripMenuItem.Click += new System.EventHandler(this.计算姿态ToolStripMenuItem_Click);
             // 
             // 保存结果ToolStripMenuItem
             // 
             this.保存结果ToolStripMenuItem.Name = "保存结果ToolStripMenuItem";
-            this.保存结果ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.保存结果ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.保存结果ToolStripMenuItem.Text = "保存结果";
             this.保存结果ToolStripMenuItem.Click += new System.EventHandler(this.保存结果ToolStripMenuItem_Click);
             // 
             // 视图VToolStripMenuItem
             // 
             this.视图VToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.调试窗口ToolStripMenuItem,
-            this.点云查看ToolStripMenuItem});
+            this.系统日志ToolStripMenuItem});
             this.视图VToolStripMenuItem.Name = "视图VToolStripMenuItem";
             this.视图VToolStripMenuItem.Size = new System.Drawing.Size(60, 21);
             this.视图VToolStripMenuItem.Text = "视图(&V)";
             // 
-            // 调试窗口ToolStripMenuItem
+            // 系统日志ToolStripMenuItem
             // 
-            this.调试窗口ToolStripMenuItem.Checked = true;
-            this.调试窗口ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.调试窗口ToolStripMenuItem.Name = "调试窗口ToolStripMenuItem";
-            this.调试窗口ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.调试窗口ToolStripMenuItem.Text = "结果视图";
-            this.调试窗口ToolStripMenuItem.Click += new System.EventHandler(this.调试窗口ToolStripMenuItem_Click);
-            // 
-            // 点云查看ToolStripMenuItem
-            // 
-            this.点云查看ToolStripMenuItem.Name = "点云查看ToolStripMenuItem";
-            this.点云查看ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.点云查看ToolStripMenuItem.Text = "点云查看";
-            this.点云查看ToolStripMenuItem.Click += new System.EventHandler(this.点云查看ToolStripMenuItem_Click);
+            this.系统日志ToolStripMenuItem.Name = "系统日志ToolStripMenuItem";
+            this.系统日志ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.系统日志ToolStripMenuItem.Text = "运行日志";
+            this.系统日志ToolStripMenuItem.Click += new System.EventHandler(this.系统日志ToolStripMenuItem_Click);
             // 
             // 项目管理MToolStripMenuItem
             // 
@@ -524,18 +642,22 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1160, 647);
+            this.ClientSize = new System.Drawing.Size(1160, 700);
             this.Controls.Add(this.panelEx1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form2";
-            this.Load += new System.EventHandler(this.Form2_Load);
+            this.Text = "MainForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Load += new System.EventHandler(this.MainForm_Load);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.panelEx1.ResumeLayout(false);
             this.panelEx1.PerformLayout();
             this.panelEx3.ResumeLayout(false);
             this.panelEx2.ResumeLayout(false);
             this.panelEx2.PerformLayout();
+            this.panelEx4.ResumeLayout(false);
+            this.panelEx4.PerformLayout();
             this.menuStripEx1.ResumeLayout(false);
             this.menuStripEx1.PerformLayout();
             this.ResumeLayout(false);
@@ -564,13 +686,23 @@
         private System.Windows.Forms.ToolStripMenuItem 计算姿态ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 保存结果ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 视图VToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 调试窗口ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 点云查看ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 项目管理MToolStripMenuItem;
         private System.Windows.Forms.ImageList imageList1;
-        private UserControls.Map3D map3D1;
         private ComponentLib.PanelEx panelEx3;
         private ComponentLib.LabelEx labelEx4;
         private ComponentLib.PropertyGridEx propertyGridEx3;
+        private ComponentLib.TextBoxEx textBoxEx1;
+        private ComponentLib.LabelEx labelEx5;
+        private UserControls.Map3D map3D1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemFront;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemBack;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemLeft;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemRight;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemUp;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemDown;
+        private ComponentLib.PanelEx panelEx4;
+        private System.Windows.Forms.ToolStripMenuItem 系统日志ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 另存为ToolStripMenuItem;
     }
 }

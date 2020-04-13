@@ -16,9 +16,10 @@ namespace SensorPoseCalibration
 {
     public class ParamManager
     {
-        static Type[] types = new Type[] { typeof(PoseCalibrationParam), typeof(PoseCalibrationResult), typeof(PointCloudParam), typeof(PointCloudInfo), typeof(SaveFilePath), typeof(OpenFilePath) };
+        static Type[] types = new Type[] { typeof(PoseCalibrationParam), typeof(PoseCalibrationResult),typeof(PointCloudParam), typeof(PointCloudInfo),
+            typeof(SaveFilePath), typeof(OpenFilePath), typeof(MoveAxis),typeof(ScanDir),typeof(XPosDir),typeof(YPosDir),typeof(ZPosDir)};
         private Dictionary<string, PoseCalibrationParam> _poseParamDic;
-       
+
         public ParamManager()
         {
             _poseParamDic = new Dictionary<string, PoseCalibrationParam>();
@@ -120,29 +121,114 @@ namespace SensorPoseCalibration
 
     public class PoseCalibrationParam
     {
+        private PropertyGridEx _propertyGrid;
+        private bool _isSensorMove;
+
         [Category("点云")]
+        [Browsable(true)]
         [DisplayName("点云数据")]
         [Description("设置点云参数")]
         [PropertyGridEx.PropertyOrder(0)]
         public PointCloudParam PointCloudParams { get; set; }
 
+        [Category("设备设置")]
+        [Browsable(true)]
+        [DisplayName("传感器移动")]
+        [Description("设置传感器是否可移动")]
+        [PropertyGridEx.PropertyOrder(1)]
+        public bool IsSensorMove
+        {
+            get
+            {
+                return _isSensorMove;
+            }
+            set
+            {
+                _isSensorMove = value;
+                if(_propertyGrid != null)
+                {
+                    _propertyGrid.SetPropertyVisibility("IsSensorMove", "MoveAxis", _isSensorMove);
+                    _propertyGrid.Refresh();
+                }
+            }
+        }
+
+        [Category("设备设置")]
+        [Browsable(true)]
+        [DisplayName("移动轴")]
+        [Description("设置传感器移动轴")]
+        [PropertyGridEx.PropertyOrder(2)]
+        public MoveAxis MoveAxis { get; set; }
+
+        [Category("设备设置")]
+        [Browsable(true)]
+        [DisplayName("扫描方向")]
+        [Description("设置扫描方向")]
+        [PropertyGridEx.PropertyOrder(3)]
+        public ScanDir ScanDir { get; set; }
+
+        [Category("设备设置")]
+        [Browsable(true)]
+        [DisplayName("线宽正向")]
+        [Description("设置线宽方向是否为正向")]
+        [PropertyGridEx.PropertyOrder(4)]
+        public bool IsPositiveDir { get; set; }
+
+        [Category("设备设置")]
+        [Browsable(true)]
+        [DisplayName("X轴正向")]
+        [Description("设置X轴正向")]
+        [PropertyGridEx.PropertyOrder(5)]
+        public XPosDir XPosDir { get; set; }
+
+        [Category("设备设置")]
+        [Browsable(true)]
+        [DisplayName("Y轴正向")]
+        [Description("设置Y轴正向")]
+        [PropertyGridEx.PropertyOrder(6)]
+        public YPosDir YPosDir { get; set; }
+
+        [Category("设备设置")]
+        [Browsable(true)]
+        [DisplayName("Z轴正向")]
+        [Description("设置Z轴正向")]
+        [PropertyGridEx.PropertyOrder(7)]
+        public ZPosDir ZPosDir { get; set; }
+
         [Category("初始值")]
+        [Browsable(true)]
         [DisplayName("X夹角")]
         [Description("设置X夹角")]
         [PropertyGridEx.PropertyOrder(1)]
         public double InitAngleX { get; set; }
 
         [Category("初始值")]
+        [Browsable(true)]
         [DisplayName("Y夹角")]
         [Description("设置Y夹角")]
         [PropertyGridEx.PropertyOrder(2)]
         public double InitAngleY { get; set; }
 
         [Category("初始值")]
+        [Browsable(true)]
         [DisplayName("Z夹角")]
         [Description("设置Z夹角")]
         [PropertyGridEx.PropertyOrder(3)]
         public double InitAngleZ { get; set; }
+
+        [Category("迭代参数")]
+        [Browsable(true)]
+        [DisplayName("次数")]
+        [Description("设置计算迭代次数")]
+        [PropertyGridEx.PropertyOrder(4)]
+        public int IterateNums { get; set; }
+
+        [Category("残差")]
+        [Browsable(true)]
+        [DisplayName("残差阈值")]
+        [Description("设置残差阈值")]
+        [PropertyGridEx.PropertyOrder(5)]
+        public double FinalCostThreshold { get; set; }
 
         [Browsable(false)]
         public string Name { get; set; }
@@ -155,78 +241,92 @@ namespace SensorPoseCalibration
         public PoseCalibrationParam()
         {
             PointCloudParams = new PointCloudParam();
+            IsSensorMove = true;
+            MoveAxis = new MoveAxis();
+            ScanDir = new ScanDir();
+            IsPositiveDir = true;
+            XPosDir = new XPosDir();
+            YPosDir = new YPosDir();
+            ZPosDir = new ZPosDir();
             CalibResult = new PoseCalibrationResult();
+            IterateNums = 100;
+            FinalCostThreshold = 0.001;
         }
 
         public PoseCalibrationParam(PoseCalibrationParam param)
         {
+            this._propertyGrid = param._propertyGrid;
             this.PointCloudParams = param.PointCloudParams;
+            this.IsSensorMove = param.IsSensorMove;
+            this.MoveAxis = param.MoveAxis;
+            this.ScanDir = param.ScanDir;
+            this.IsPositiveDir = param.IsPositiveDir;
+            this.XPosDir = param.XPosDir;
+            this.YPosDir = param.YPosDir;
+            this.ZPosDir = param.ZPosDir;
             this.InitAngleX = param.InitAngleX;
             this.InitAngleY = param.InitAngleY;
             this.InitAngleZ = param.InitAngleZ;
+            this.IterateNums = param.IterateNums;
+            this.FinalCostThreshold = param.FinalCostThreshold;
             this.CalibResult = param.CalibResult;
             this.Name = param.Name;
             this.IsConfig = param.IsConfig;
+        }
+
+        public void SetPropertyGrid(PropertyGridEx grid)
+        {
+            _propertyGrid = grid;
         }
     }
 
     public class PoseCalibrationResult
     {
+        [Category("保存姿态")]
+        [DisplayName("路径")]
+        [Description("设置保存路径")]
+        [PropertyGridEx.PropertyOrder(0)]
+        public SaveFilePath SavePath { get; set; }
+
         [Category("输出")]
         [DisplayName("残差")]
         [Description("输出残差结果")]
         [ReadOnly(true)]
-        [PropertyGridEx.PropertyOrder(0)]
+        [PropertyGridEx.PropertyOrder(1)]
         public double FinalCost { get; set; }
 
         [Category("输出")]
         [DisplayName("X夹角")]
         [Description("输出X夹角结果")]
         [ReadOnly(true)]
-        [PropertyGridEx.PropertyOrder(1)]
+        [PropertyGridEx.PropertyOrder(2)]
         public double ResultAngleX { get; set; }
 
         [Category("输出")]
         [DisplayName("Y夹角")]
         [Description("输出Y夹角结果")]
         [ReadOnly(true)]
-        [PropertyGridEx.PropertyOrder(2)]
+        [PropertyGridEx.PropertyOrder(3)]
         public double ResultAngleY { get; set; }
 
         [Category("输出")]
         [DisplayName("Z夹角")]
         [Description("输出Z夹角结果")]
         [ReadOnly(true)]
-        [PropertyGridEx.PropertyOrder(3)]
+        [PropertyGridEx.PropertyOrder(4)]
         public double ResultAngleZ { get; set; }
 
-        [Category("保存姿态")]
-        [DisplayName("路径")]
-        [Description("设置保存路径")]
-        [PropertyGridEx.PropertyOrder(4)]
-        public SaveFilePath SavePath { get; set; }
-
-        [Category("保存姿态")]
-        [DisplayName("X平移")]
-        [Description("设置X轴平移量")]
+        [Category("详细信息")]
+        [DisplayName("球心/半径")]
+        [Description("查看球心/半径")]
         [PropertyGridEx.PropertyOrder(5)]
-        public double TranslationX { get; set; }
-
-        [Category("保存姿态")]
-        [DisplayName("Y平移")]
-        [Description("设置Y轴平移量")]
-        [PropertyGridEx.PropertyOrder(6)]
-        public double TranslationY { get; set; }
-
-        [Category("保存姿态")]
-        [DisplayName("Z平移")]
-        [Description("设置Z轴平移量")]
-        [PropertyGridEx.PropertyOrder(7)]
-        public double TranslationZ { get; set; }
+        [XmlIgnore]
+        public ResultCenterRadius CenterRadius { get; set; }
 
         public PoseCalibrationResult()
         {
             SavePath = new SaveFilePath();
+            CenterRadius = new ResultCenterRadius();
         }
 
     }
@@ -383,6 +483,306 @@ namespace SensorPoseCalibration
         {
             return "集合";
         }
+    }
+
+    public class ResultCenterRadius : PropertyGridEx.IPropertyFormEditBase
+    {
+        public List<Tuple<XDPOINT,double>> CenterRadiusLst;
+
+        public ResultCenterRadius()
+        {
+            CenterRadiusLst = new List<Tuple<XDPOINT, double>>();
+        }
+
+        public void SetValue()
+        {
+            ResultCenterRadiusShow showForm = new ResultCenterRadiusShow(this);
+            showForm.ShowDialog();
+        }
+
+        public override string ToString()
+        {
+            return "集合";
+        }
+    }
+
+    public enum MoveAxisEnum
+    {
+        X轴,
+        Y轴,
+        Z轴
+    }
+
+    public class MoveAxis : PropertyGridEx.IPropertyComboEditBase
+    {
+        private string[] StringList;
+        public string[] SelectedList;
+
+        [XmlIgnore]
+        public List<int> SelectedItems
+        {
+            get
+            {
+                List<int> selectedItems = new List<int>();
+                foreach (var item in SelectedList)
+                    selectedItems.Add(StringList.ToList().FindIndex(p=>p==item));
+                return selectedItems;
+            }
+        }
+
+        public bool IsMultiSelect { get; set; }
+
+        public MoveAxis()
+        {
+            IsMultiSelect = true;
+            StringList = typeof(MoveAxisEnum).GetEnumNames();
+            SelectedList = new string[] { typeof(MoveAxisEnum).GetEnumName(MoveAxisEnum.Z轴) };
+        }
+        
+        public void GetEditList(out List<string> strLst, out List<string> selectedLst)
+        {
+            strLst = StringList.ToList();
+            selectedLst = SelectedList.ToList();
+        }
+
+        public PropertyGridEx.IPropertyComboEditBase SetValue(List<string> selectedLst)
+        {
+            SelectedList = selectedLst.ToArray();
+            return this;
+        }
+
+        public override string ToString()
+        {
+            string str = string.Empty;
+            foreach(var item in SelectedList)
+            {
+                str += item;
+                if (item != SelectedList[SelectedList.Length - 1])
+                    str += ",";
+            }
+            return str;
+        }
+
+    }
+
+    public enum ScanDirEnum
+    {
+        沿X轴扫描,
+        沿Y轴扫描
+    }
+
+    public class ScanDir : PropertyGridEx.IPropertyComboEditBase
+    {
+        private string[] StringList;
+        public string[] SelectedList;
+
+        [XmlIgnore]
+        public int SelectedItem
+        {
+            get
+            {
+                return StringList.ToList().FindIndex(p => p == SelectedList[0]);
+            }
+        }
+
+        public bool IsMultiSelect { get; set; }
+
+        public ScanDir()
+        {
+            IsMultiSelect = false;
+            StringList = typeof(ScanDirEnum).GetEnumNames();
+            SelectedList = new string[] { typeof(ScanDirEnum).GetEnumName(ScanDirEnum.沿X轴扫描) };
+        }
+
+        public void GetEditList(out List<string> strLst, out List<string> selectedLst)
+        {
+            strLst = StringList.ToList();
+            selectedLst = SelectedList.ToList();
+        }
+
+        public PropertyGridEx.IPropertyComboEditBase SetValue(List<string> selectedLst)
+        {
+            SelectedList = selectedLst.ToArray();
+            return this;
+        }
+
+        public override string ToString()
+        {
+            string str = string.Empty;
+            foreach (var item in SelectedList)
+            {
+                str += item;
+                if (item != SelectedList[SelectedList.Length - 1])
+                    str += ",";
+            }
+            return str;
+        }
+
+    }
+
+    public enum XPosDirEnum
+    {
+        向左,
+        向右
+    }
+
+    public class XPosDir : PropertyGridEx.IPropertyComboEditBase
+    {
+        private string[] StringList;
+        public string[] SelectedList;
+
+        [XmlIgnore]
+        public bool SelectedItem
+        {
+            get
+            {
+                return SelectedList[0] == StringList[1];
+            }
+        }
+
+        public bool IsMultiSelect { get; set; }
+
+        public XPosDir()
+        {
+            IsMultiSelect = false;
+            StringList = typeof(XPosDirEnum).GetEnumNames();
+            SelectedList = new string[] { typeof(XPosDirEnum).GetEnumName(XPosDirEnum.向右) };
+        }
+
+        public void GetEditList(out List<string> strLst, out List<string> selectedLst)
+        {
+            strLst = StringList.ToList();
+            selectedLst = SelectedList.ToList();
+        }
+
+        public PropertyGridEx.IPropertyComboEditBase SetValue(List<string> selectedLst)
+        {
+            SelectedList = selectedLst.ToArray();
+            return this;
+        }
+
+        public override string ToString()
+        {
+            string str = string.Empty;
+            foreach (var item in SelectedList)
+            {
+                str += item;
+                if (item != SelectedList[SelectedList.Length - 1])
+                    str += ",";
+            }
+            return str;
+        }
+
+    }
+
+    public enum YPosDirEnum
+    {
+        向里,
+        向外
+    }
+
+    public class YPosDir : PropertyGridEx.IPropertyComboEditBase
+    {
+        private string[] StringList;
+        public string[] SelectedList;
+
+        [XmlIgnore]
+        public bool SelectedItem
+        {
+            get
+            {
+                return SelectedList[0] == StringList[0];
+            }
+        }
+
+        public bool IsMultiSelect { get; set; }
+
+        public YPosDir()
+        {
+            IsMultiSelect = false;
+            StringList = typeof(YPosDirEnum).GetEnumNames();
+            SelectedList = new string[] { typeof(YPosDirEnum).GetEnumName(YPosDirEnum.向外) };
+        }
+
+        public void GetEditList(out List<string> strLst, out List<string> selectedLst)
+        {
+            strLst = StringList.ToList();
+            selectedLst = SelectedList.ToList();
+        }
+
+        public PropertyGridEx.IPropertyComboEditBase SetValue(List<string> selectedLst)
+        {
+            SelectedList = selectedLst.ToArray();
+            return this;
+        }
+
+        public override string ToString()
+        {
+            string str = string.Empty;
+            foreach (var item in SelectedList)
+            {
+                str += item;
+                if (item != SelectedList[SelectedList.Length - 1])
+                    str += ",";
+            }
+            return str;
+        }
+
+    }
+
+    public enum ZPosDirEnum
+    {
+        向上,
+        向下
+    }
+
+    public class ZPosDir : PropertyGridEx.IPropertyComboEditBase
+    {
+        private string[] StringList;
+        public string[] SelectedList;
+
+        [XmlIgnore]
+        public bool SelectedItem
+        {
+            get
+            {
+                return SelectedList[0] == StringList[0];
+            }
+        }
+
+        public bool IsMultiSelect { get; set; }
+
+        public ZPosDir()
+        {
+            IsMultiSelect = false;
+            StringList = typeof(ZPosDirEnum).GetEnumNames();
+            SelectedList = new string[] { typeof(ZPosDirEnum).GetEnumName(ZPosDirEnum.向上) };
+        }
+
+        public void GetEditList(out List<string> strLst, out List<string> selectedLst)
+        {
+            strLst = StringList.ToList();
+            selectedLst = SelectedList.ToList();
+        }
+
+        public PropertyGridEx.IPropertyComboEditBase SetValue(List<string> selectedLst)
+        {
+            SelectedList = selectedLst.ToArray();
+            return this;
+        }
+
+        public override string ToString()
+        {
+            string str = string.Empty;
+            foreach (var item in SelectedList)
+            {
+                str += item;
+                if (item != SelectedList[SelectedList.Length - 1])
+                    str += ",";
+            }
+            return str;
+        }
+
     }
 
     public class PointCloudShowParam

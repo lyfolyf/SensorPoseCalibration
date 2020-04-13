@@ -17,7 +17,7 @@ namespace SensorPoseCalibration
     {
         LogicControl logicControl;
         Dictionary<LCDataShow, PointCloudShowParam> srcPointCloudInfo, desPointCloudInfo;
-
+        private string strConfigPath;
         public bool isLoadingDone;
 
         public MainForm()
@@ -30,9 +30,9 @@ namespace SensorPoseCalibration
             InitializeComponent();
         }
 
-        private void Form2_Load(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
-            panelEx3.Visible = false;
+            panelEx4.Visible = false;
         }
 
         private void OnPointCloudListChanged(object sender, EventArgs e)
@@ -87,23 +87,59 @@ namespace SensorPoseCalibration
             openFile.Filter = "Open File|*.pca";
             if (openFile.ShowDialog() == DialogResult.OK)
             {
-                if (!logicControl.paramManager.LoadParams(openFile.FileName))
+                strConfigPath = openFile.FileName;
+                bool loadResult = logicControl.paramManager.LoadParams(strConfigPath);
+                string logInfo = loadResult ? "参数加载完成" : "参数加载失败";
+                UpdateLogInfo(logInfo);
+                if(loadResult)
                 {
-                    MessageBox.Show("参数加载失败");
-                    return;
+                    UpdateComboItems();
+                    OnPointCloudListChanged(new object(), new EventArgs());
                 }
-                UpdateComboItems();
-                OnPointCloudListChanged(new object(),new EventArgs());
             }
         }
 
         private void 保存配置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if(string.IsNullOrEmpty(strConfigPath))
+            {
+                SaveFileDialog saveFile = new SaveFileDialog();
+                saveFile.Filter = "Save File|*.pca";
+                if (saveFile.ShowDialog() != DialogResult.OK)
+                    return;
+                strConfigPath = saveFile.FileName;
+            }
+            bool saveResult = logicControl.paramManager.SaveParams(strConfigPath);
+            string logInfo = saveResult ? "参数保存完成" : "参数保存失败";
+            UpdateLogInfo(logInfo);
+        }
+
+        private void 另存为ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             SaveFileDialog saveFile = new SaveFileDialog();
             saveFile.Filter = "Save File|*.pca";
             if (saveFile.ShowDialog() == DialogResult.OK)
-                if (!logicControl.paramManager.SaveParams(saveFile.FileName))
-                    MessageBox.Show("参数保存失败");
+            {
+                bool saveResult = logicControl.paramManager.SaveParams(saveFile.FileName);
+                string logInfo = saveResult ? "参数另存完成" : "参数另存失败";
+                UpdateLogInfo(logInfo);
+            }
+        }
+
+        private void 计算姿态ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CalibratePose();
+        }
+
+        private void 保存结果ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveResultPose();
+        }
+
+        private void 系统日志ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            系统日志ToolStripMenuItem.Checked = !系统日志ToolStripMenuItem.Checked;
+            panelEx4.Visible = 系统日志ToolStripMenuItem.Checked;
         }
 
         private void 项目管理MToolStripMenuItem_Click(object sender, EventArgs e)
@@ -138,20 +174,9 @@ namespace SensorPoseCalibration
                 logicControl.paramManager.SetSelectedParam(comboBoxEx1.SelectedItem as string);
                 PoseCalibrationParam seletedParam = logicControl.paramManager.GetSelectedParam();
                 propertyGridEx1.SelectedObject = seletedParam;
+                seletedParam.SetPropertyGrid(propertyGridEx1);
                 propertyGridEx2.SelectedObject = seletedParam.CalibResult;
             }
-        }
-
-        private void 调试窗口ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            调试窗口ToolStripMenuItem.Checked = !调试窗口ToolStripMenuItem.Checked;
-            panelEx2.Visible = 调试窗口ToolStripMenuItem.Checked;
-        }
-
-        private void 点云查看ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            点云查看ToolStripMenuItem.Checked = !点云查看ToolStripMenuItem.Checked;
-            panelEx3.Visible = 点云查看ToolStripMenuItem.Checked;
         }
         
         private void buttonCalibPose_Click(object sender, EventArgs e)
@@ -166,23 +191,27 @@ namespace SensorPoseCalibration
                 Dictionary<PointCloudInfo, XDPOINT[,]> srcPointCloudDic;
                 Dictionary<PointCloudInfo, XDPOINT[,]> desPointCloudDic;
                 string errCode;
+                UpdateLogInfo("姿态计算开始");
                 Thread _thread = new Thread(() => { Loading loadingForm = new Loading(this); loadingForm.ShowDialog(); });
                 _thread.IsBackground = true;
                 _thread.Start();
                 bool calibResult = logicControl.CalibrateSensorPose(out srcPointCloudDic, out desPointCloudDic, out errCode);
                 isLoadingDone = true;
-                if (!calibResult)
+                string logInfo = calibResult ? "姿态计算完成" : "姿态计算失败";
+                UpdateLogInfo(logInfo);
+                if (calibResult)
                 {
-                    MessageBox.Show(errCode);
-                    return;
+                    PoseCalibrationParam seletedParam = logicControl.paramManager.GetSelectedParam();
+                    propertyGridEx2.SelectedObject = seletedParam.CalibResult;
+                    labelEx2.BackColor = seletedParam.CalibResult.FinalCost > seletedParam.FinalCostThreshold ? Color.Red : Color.FromArgb(210, 210, 255);
+                    for (int i = 0; i < srcPointCloudDic.Count; i++)
+                    {
+                        srcPointCloudInfo.ElementAt(i).Key.data = srcPointCloudDic.ElementAt(i).Value;
+                        desPointCloudInfo.ElementAt(i).Key.data = desPointCloudDic.ElementAt(i).Value;
+                    }
+                    UpdateMap3D();
                 }
-                propertyGridEx2.SelectedObject = logicControl.paramManager.GetSelectedParam().CalibResult;
-                for (int i = 0; i < srcPointCloudDic.Count; i++)
-                {
-                    srcPointCloudInfo.ElementAt(i).Key.data = srcPointCloudDic.ElementAt(i).Value;
-                    desPointCloudInfo.ElementAt(i).Key.data = desPointCloudDic.ElementAt(i).Value;
-                }
-                UpdateMap3D();
+
             }
         }
 
@@ -194,19 +223,9 @@ namespace SensorPoseCalibration
 
         private void SaveResultPose()
         {
-            if (!logicControl.SaveResultPose())
-                MessageBox.Show("保存姿态失败");
-        }
-
-
-        private void 计算姿态ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CalibratePose();
-        }
-
-        private void 保存结果ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveResultPose();
+            bool saveResult = logicControl.SaveResultPose();
+            string logInfo = saveResult ? "姿态保存完成" : "姿态保存失败";
+            UpdateLogInfo(logInfo);
         }
         
         private void UpdateMap3D()
@@ -257,6 +276,36 @@ namespace SensorPoseCalibration
             else
                 propertyGridEx3.SelectedObject = null;
         }
+
+
+        private void UpdateLogInfo(string strMsg)
+        {
+            textBoxEx1.MultiLinesAdd(DateTime.Now.ToString() + "    " + strMsg);
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            logicControl.AlgoDispose();
+        }
+        
+        private void ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = sender as ToolStripMenuItem;
+            if (item == ToolStripMenuItemLeft)
+                map3D1.ViewMode = ViewMode.Left;
+            else if(item == ToolStripMenuItemRight)
+                map3D1.ViewMode = ViewMode.Right;
+            else if (item == ToolStripMenuItemFront)
+                map3D1.ViewMode = ViewMode.Front;
+            else if (item == ToolStripMenuItemBack)
+                map3D1.ViewMode = ViewMode.Back;
+            else if (item == ToolStripMenuItemUp)
+                map3D1.ViewMode = ViewMode.Top;
+            else if (item == ToolStripMenuItemDown)
+                map3D1.ViewMode = ViewMode.Bottom;
+            UpdateMap3D();
+        }
+        
 
     }
 }
