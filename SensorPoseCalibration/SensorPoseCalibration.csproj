@@ -44,8 +44,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\CommonStruct.dll</HintPath>
     </Reference>
-    <Reference Include="ComponentLib">
-      <HintPath>..\..\Others\00 组内编码\Management System\ManagerApp\ComponentLib.dll</HintPath>
+    <Reference Include="ComponentLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\ComponentLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

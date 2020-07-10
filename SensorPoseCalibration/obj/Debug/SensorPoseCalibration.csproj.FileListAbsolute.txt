@@ -19,7 +19,6 @@ E:\Source\SensorPoseCalibration\SensorPoseCalibration\obj\Debug\SensorPoseCalibr
 E:\Source\SensorPoseCalibration\SensorPoseCalibration\obj\Debug\SensorPoseCalibration.pdb
 E:\Source\SensorPoseCalibration\SensorPoseCalibration\bin\Debug\SensorPoseCalibration.exe
 E:\Source\SensorPoseCalibration\SensorPoseCalibration\bin\Debug\SensorPoseCalibration.pdb
-E:\Source\SensorPoseCalibration\SensorPoseCalibration\bin\Debug\ComponentLib.dll
 E:\Source\SensorPoseCalibration\SensorPoseCalibration\obj\Debug\SensorPoseCalibration.NewProject.resources
 E:\Source\SensorPoseCalibration\SensorPoseCalibration\obj\Debug\SensorPoseCalibration.PointCloudConfig.resources
 E:\Source\SensorPoseCalibration\SensorPoseCalibration\obj\Debug\SensorPoseCalibration.ProjectConfig.resources
@@ -27,6 +26,5 @@ E:\Source\SensorPoseCalibration\SensorPoseCalibration\obj\Debug\SensorPoseCalibr
 E:\Source\SensorPoseCalibration\SensorPoseCalibration\obj\Debug\SensorPoseCalibration.csproj.GenerateResource.Cache
 E:\Source\SensorPoseCalibration\SensorPoseCalibration\obj\Debug\SensorPoseCalibration.MainForm.resources
 E:\Source\SensorPoseCalibration\SensorPoseCalibration\obj\Debug\SensorPoseCalibration.Loading.resources
-E:\Source\SensorPoseCalibration\SensorPoseCalibration\bin\Debug\ComponentLib.pdb
 E:\Source\SensorPoseCalibration\SensorPoseCalibration\obj\Debug\SensorPoseCalibration.ResultCenterRadiusShow.resources
 E:\Source\SensorPoseCalibration\SensorPoseCalibration\obj\Debug\SensorPoseCalibration.csprojResolveAssemblyReference.cache

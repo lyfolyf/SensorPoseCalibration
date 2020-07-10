@@ -29,7 +29,6 @@ E:\Source\SensorPoseCalibration\SensorPoseCalibration\obj\Release\SensorPoseCali
 E:\Source\SensorPoseCalibration\SensorPoseCalibration\obj\Release\SensorPoseCalibration.Loading.resources
 E:\Source\SensorPoseCalibration\SensorPoseCalibration\obj\Release\SensorPoseCalibration.MainForm.resources
 E:\Source\SensorPoseCalibration\SensorPoseCalibration\bin\Release\ComponentLib.dll
-E:\Source\SensorPoseCalibration\SensorPoseCalibration\bin\Release\ComponentLib.pdb
 E:\Source\SensorPoseCalibration\SensorPoseCalibration\obj\Release\SensorPoseCalibration.ResultCenterRadiusShow.resources
 E:\Source\SensorPoseCalibration\SensorPoseCalibration\bin\Release\CommonStruct.dll
 E:\Source\SensorPoseCalibration\SensorPoseCalibration\bin\Release\UserControls.dll
