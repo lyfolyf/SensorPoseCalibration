@@ -1,5 +1,6 @@
 ﻿using CommonStruct.Type3D;
 using ComponentLib;
+using ComponentLib.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using static ComponentLib.PropertyGridEx;
 
 namespace SensorPoseCalibration
 {
@@ -128,14 +130,14 @@ namespace SensorPoseCalibration
         [Browsable(true)]
         [DisplayName("点云数据")]
         [Description("设置点云参数")]
-        [PropertyGridEx.PropertyOrder(0)]
+        [PropertyOrder(0)]
         public PointCloudParam PointCloudParams { get; set; }
 
         [Category("设备设置")]
         [Browsable(true)]
         [DisplayName("传感器移动")]
         [Description("设置传感器是否可移动")]
-        [PropertyGridEx.PropertyOrder(1)]
+        [PropertyOrder(1)]
         public bool IsSensorMove
         {
             get
@@ -157,77 +159,78 @@ namespace SensorPoseCalibration
         [Browsable(true)]
         [DisplayName("移动轴")]
         [Description("设置传感器移动轴")]
-        [PropertyGridEx.PropertyOrder(2)]
+        [PropertyOrder(2)]
         public MoveAxis MoveAxis { get; set; }
 
         [Category("设备设置")]
         [Browsable(true)]
         [DisplayName("扫描方向")]
         [Description("设置扫描方向")]
-        [PropertyGridEx.PropertyOrder(3)]
+        [PropertyOrder(3)]
         public ScanDir ScanDir { get; set; }
 
         [Category("设备设置")]
         [Browsable(true)]
         [DisplayName("线宽正向")]
         [Description("设置线宽方向是否为正向")]
-        [PropertyGridEx.PropertyOrder(4)]
+        [PropertyOrder(4)]
         public bool IsPositiveDir { get; set; }
 
         [Category("设备设置")]
         [Browsable(true)]
         [DisplayName("X轴正向")]
         [Description("设置X轴正向")]
-        [PropertyGridEx.PropertyOrder(5)]
+        [PropertyOrder(5)]
         public XPosDir XPosDir { get; set; }
 
         [Category("设备设置")]
         [Browsable(true)]
         [DisplayName("Y轴正向")]
         [Description("设置Y轴正向")]
-        [PropertyGridEx.PropertyOrder(6)]
+        [PropertyOrder(6)]
         public YPosDir YPosDir { get; set; }
 
         [Category("设备设置")]
         [Browsable(true)]
         [DisplayName("Z轴正向")]
         [Description("设置Z轴正向")]
-        [PropertyGridEx.PropertyOrder(7)]
+        [PropertyOrder(7)]
         public ZPosDir ZPosDir { get; set; }
 
         [Category("初始值")]
         [Browsable(true)]
         [DisplayName("X夹角")]
         [Description("设置X夹角")]
-        [PropertyGridEx.PropertyOrder(1)]
+        [PropertyOrder(1)]
         public double InitAngleX { get; set; }
 
         [Category("初始值")]
         [Browsable(true)]
         [DisplayName("Y夹角")]
         [Description("设置Y夹角")]
-        [PropertyGridEx.PropertyOrder(2)]
+        [PropertyOrder(2)]
         public double InitAngleY { get; set; }
 
         [Category("初始值")]
         [Browsable(true)]
         [DisplayName("Z夹角")]
         [Description("设置Z夹角")]
-        [PropertyGridEx.PropertyOrder(3)]
+        [PropertyOrder(3)]
         public double InitAngleZ { get; set; }
 
         [Category("迭代参数")]
         [Browsable(true)]
         [DisplayName("次数")]
         [Description("设置计算迭代次数")]
-        [PropertyGridEx.PropertyOrder(4)]
+        [Range(50,1000)]
+        [PropertyOrder(4)]
         public int IterateNums { get; set; }
 
         [Category("残差")]
         [Browsable(true)]
         [DisplayName("残差阈值")]
         [Description("设置残差阈值")]
-        [PropertyGridEx.PropertyOrder(5)]
+        [PropertyOrder(5)]
         public double FinalCostThreshold { get; set; }
 
         [Browsable(false)]
@@ -285,41 +288,42 @@ namespace SensorPoseCalibration
         [Category("保存姿态")]
         [DisplayName("路径")]
         [Description("设置保存路径")]
-        [PropertyGridEx.PropertyOrder(0)]
+        [Browsable(false)]
+        [PropertyOrder(0)]
         public SaveFilePath SavePath { get; set; }
 
         [Category("输出")]
         [DisplayName("残差")]
         [Description("输出残差结果")]
         [ReadOnly(true)]
-        [PropertyGridEx.PropertyOrder(1)]
+        [PropertyOrder(1)]
         public double FinalCost { get; set; }
 
         [Category("输出")]
         [DisplayName("X夹角")]
         [Description("输出X夹角结果")]
         [ReadOnly(true)]
-        [PropertyGridEx.PropertyOrder(2)]
+        [PropertyOrder(2)]
         public double ResultAngleX { get; set; }
 
         [Category("输出")]
         [DisplayName("Y夹角")]
         [Description("输出Y夹角结果")]
         [ReadOnly(true)]
-        [PropertyGridEx.PropertyOrder(3)]
+        [PropertyOrder(3)]
         public double ResultAngleY { get; set; }
 
         [Category("输出")]
         [DisplayName("Z夹角")]
         [Description("输出Z夹角结果")]
         [ReadOnly(true)]
-        [PropertyGridEx.PropertyOrder(4)]
+        [PropertyOrder(4)]
         public double ResultAngleZ { get; set; }
 
         [Category("详细信息")]
         [DisplayName("球心/半径")]
         [Description("查看球心/半径")]
-        [PropertyGridEx.PropertyOrder(5)]
+        [PropertyOrder(5)]
         [XmlIgnore]
         public ResultCenterRadius CenterRadius { get; set; }
 
@@ -331,15 +335,16 @@ namespace SensorPoseCalibration
 
     }
 
-    public class OpenFilePath : PropertyGridEx.IPropertyFormEditBase
+    public class OpenFilePath : IPropertyFormEditBase
     {
         public string pathName;
-        public void SetValue()
+        public object SetValue()
         {
             OpenFileDialog openFile = new OpenFileDialog();
             openFile.Filter = "PointCloud File|*.txt;*.csv";
             if (openFile.ShowDialog() == DialogResult.OK)
                 pathName = openFile.FileName;
+            return this;
         }
 
         public OpenFilePath()
@@ -353,15 +358,16 @@ namespace SensorPoseCalibration
         }
     }
 
-    public class SaveFilePath : PropertyGridEx.IPropertyFormEditBase
+    public class SaveFilePath : IPropertyFormEditBase
     {
         public string pathName;
-        public void SetValue()
+        public object SetValue()
         {
             SaveFileDialog saveFile = new SaveFileDialog();
             saveFile.Filter = "Save File|*.txt;*.csv";
             if (saveFile.ShowDialog() == DialogResult.OK)
                 pathName = saveFile.FileName;
+            return this;
         }
 
         public SaveFilePath()
@@ -381,49 +387,49 @@ namespace SensorPoseCalibration
         [DisplayName("路径")]
         [Description("设置点云路径")]
         [ReadOnly(false)]
-        [PropertyGridEx.PropertyOrder(0)]
+        [PropertyOrder(0)]
         public OpenFilePath PointCloudPath { get; set; }
 
         [Category("点云")]
         [DisplayName("阵列数据")]
         [Description("设置点云是否为阵列数据")]
-        [PropertyGridEx.PropertyOrder(1)]
+        [PropertyOrder(1)]
         public bool IsPointArray { get; set; }
 
         [Category("点云")]
         [DisplayName("光强")]
         [Description("设置点云数据是否包含光强")]
-        [PropertyGridEx.PropertyOrder(2)]
+        [PropertyOrder(2)]
         public bool IsIncludeIntensity { get; set; }
 
         [Category("点云")]
         [DisplayName("Z最大值")]
         [Description("设置Z最大值")]
-        [PropertyGridEx.PropertyOrder(3)]
+        [PropertyOrder(3)]
         public double ZMax { get; set; }
 
         [Category("点云")]
         [DisplayName("Z最小值")]
         [Description("设置Z最小值")]
-        [PropertyGridEx.PropertyOrder(4)]
+        [PropertyOrder(4)]
         public double ZMin { get; set; }
 
         [Category("扫描初始位置")]
         [DisplayName("X轴坐标")]
         [Description("设置X轴坐标")]
-        [PropertyGridEx.PropertyOrder(7)]
+        [PropertyOrder(7)]
         public double XPosition { get; set; }
 
         [Category("扫描初始位置")]
         [DisplayName("Y轴坐标")]
         [Description("设置Y轴坐标")]
-        [PropertyGridEx.PropertyOrder(8)]
+        [PropertyOrder(8)]
         public double YPosition { get; set; }
 
         [Category("扫描初始位置")]
         [DisplayName("Z轴坐标")]
         [Description("设置Z轴坐标")]
-        [PropertyGridEx.PropertyOrder(9)]
+        [PropertyOrder(9)]
         public double ZPosition { get; set; }
 
 
@@ -454,7 +460,7 @@ namespace SensorPoseCalibration
             PointCloudInfoLst = new List<PointCloudInfo>();
         }
 
-        public void SetValue()
+        public object SetValue()
         {
             PointCloudConfig configForm = new PointCloudConfig(this);
             if (configForm.ShowDialog() == DialogResult.OK)
@@ -462,7 +468,7 @@ namespace SensorPoseCalibration
                 PointCloudInfoLst = configForm.pointCloudParam.PointCloudInfoLst;
                 NotifyPointCloudListChanged();
             }
-               
+            return this;
         }
 
         private void NotifyPointCloudListChanged()
@@ -494,10 +500,11 @@ namespace SensorPoseCalibration
             CenterRadiusLst = new List<Tuple<XDPOINT, double>>();
         }
 
-        public void SetValue()
+        public object SetValue()
         {
             ResultCenterRadiusShow showForm = new ResultCenterRadiusShow(this);
             showForm.ShowDialog();
+            return this;
         }
 
         public override string ToString()
@@ -792,7 +799,7 @@ namespace SensorPoseCalibration
         [Category("点云显示")]
         [DisplayName("颜色")]
         [Description("设置点云显示颜色")]
-        [PropertyGridEx.PropertyOrder(0)]
+        [PropertyOrder(0)]
         public Color DisplayColor
         {
             get

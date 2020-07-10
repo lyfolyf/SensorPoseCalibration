@@ -20,15 +20,14 @@ namespace SensorPoseCalibration
         {
             paramManager = new ParamManager();
             poseCalibAlgo = PoseCalibDLL.CreatePoseCalibInstance();
+            PoseCalibDLL.SetHWndName(poseCalibAlgo, "Loading");
         }
 
-        public bool CalibrateSensorPose(out Dictionary<PointCloudInfo, XDPOINT[,]> srcPointCloudDic, out Dictionary<PointCloudInfo, XDPOINT[,]> desPointCloudDic, out string errCode)
+        public bool GetSourcePointCloud(out Dictionary<PointCloudInfo, XDPOINT[,]> srcPointCloudDic, out string errCode)
         {
             errCode = string.Empty;
             srcPointCloudDic = new Dictionary<PointCloudInfo, XDPOINT[,]>();
-            desPointCloudDic = new Dictionary<PointCloudInfo, XDPOINT[,]>();
-            PoseCalibrationParam calibParam = paramManager.GetSelectedParam();
-            List<PointCloudInfo> pointCloudLst = calibParam.PointCloudParams.PointCloudInfoLst;
+            List<PointCloudInfo> pointCloudLst = paramManager.GetSelectedParam().PointCloudParams.PointCloudInfoLst;
             if (pointCloudLst.FindAll(p => string.IsNullOrEmpty(p.PointCloudPath.pathName) || !File.Exists(p.PointCloudPath.pathName)).Count > 0)
             {
                 errCode = "点云" + pointCloudLst.FindIndex(p => string.IsNullOrEmpty(p.PointCloudPath.pathName) || !File.Exists(p.PointCloudPath.pathName)) + "路径未设置或不存在";
@@ -56,6 +55,18 @@ namespace SensorPoseCalibration
                     srcPointCloudDic[item] = points;
                 }
             }
+            return true;
+        }
+
+        public bool CalibrateSensorPose(out Dictionary<PointCloudInfo, XDPOINT[,]> desPointCloudDic, out string errCode)
+        {
+            desPointCloudDic = new Dictionary<PointCloudInfo, XDPOINT[,]>();
+            errCode = string.Empty;
+            Dictionary<PointCloudInfo, XDPOINT[,]> srcPointCloudDic = new Dictionary<PointCloudInfo, XDPOINT[,]>();
+            if (!GetSourcePointCloud(out srcPointCloudDic, out errCode))
+                return false;
+            PoseCalibrationParam calibParam = paramManager.GetSelectedParam();
+            List<PointCloudInfo> pointCloudLst = calibParam.PointCloudParams.PointCloudInfoLst;
             PoseCalibDLL.InitData(poseCalibAlgo);
             foreach (var item in pointCloudLst)
             {
@@ -69,23 +80,20 @@ namespace SensorPoseCalibration
                         pointArray[j + i * columns] = srcPointCloudDic[item][i, j];
                     }
                 }
-                if (!PoseCalibDLL.AddPointCloud(poseCalibAlgo, ref pointArray[0], pointArray.Length))
-                {
-                    errCode = "AddPointCloud Error";
+                if (!PoseCalibDLL.AddPointCloud(poseCalibAlgo, ref pointArray[0], pointArray.Length,ref errCode))
                     return false;
-                }
 
                 double[] Axis_Pos = { item.XPosition, item.YPosition, item.ZPosition };
-                if (!PoseCalibDLL.AddTrajInfo(poseCalibAlgo, ref Axis_Pos[0], Axis_Pos.Length))
-                {
-                    errCode = "AddTrajInfo Error";
+                if (!PoseCalibDLL.AddTrajInfo(poseCalibAlgo, ref Axis_Pos[0], Axis_Pos.Length, ref errCode))
                     return false;
-                }
             }
             PoseCalibDLL.SetIterateNum(poseCalibAlgo, calibParam.IterateNums);
             PoseCalibDLL.SetInitPose(poseCalibAlgo, calibParam.InitAngleX, calibParam.InitAngleY, calibParam.InitAngleZ);
-            foreach(var item in calibParam.MoveAxis.SelectedItems)
-                PoseCalibDLL.AddSensorMoveAxis(poseCalibAlgo, item);
+            if(calibParam.IsSensorMove)
+            {
+                foreach (var item in calibParam.MoveAxis.SelectedItems)
+                    PoseCalibDLL.AddSensorMoveAxis(poseCalibAlgo, item);
+            }
             PoseCalibDLL.SetScanMoveAxis(poseCalibAlgo, calibParam.ScanDir.SelectedItem);
             PoseCalibDLL.SetAxisDir(poseCalibAlgo, 0, calibParam.XPosDir.SelectedItem);
             PoseCalibDLL.SetAxisDir(poseCalibAlgo, 1, calibParam.YPosDir.SelectedItem);
@@ -96,13 +104,8 @@ namespace SensorPoseCalibration
             {
                 double[] result_pose = { 0.0, 0.0, 0.0 };
                 double final_cost = 0;
-                DateTime start = DateTime.Now;
-                if (!PoseCalibDLL.ComputeSensorPose(poseCalibAlgo, ref result_pose[0], ref final_cost))
-                {
-                    errCode = "ComputeSensorPose Error";
+                if (!PoseCalibDLL.ComputeSensorPose(poseCalibAlgo, ref result_pose[0], ref final_cost,ref errCode))
                     return false;
-                }
-                TimeSpan a = DateTime.Now - start;
                 calibParam.CalibResult.FinalCost = final_cost;
                 calibParam.CalibResult.ResultAngleX = result_pose[0];
                 calibParam.CalibResult.ResultAngleY = result_pose[1];
@@ -113,7 +116,7 @@ namespace SensorPoseCalibration
                     int index = pointCloudLst.FindIndex(p => p == item);
                     int nums = PoseCalibDLL.GetSinglePointCloudNum(poseCalibAlgo, index);
                     XDPOINT[] resultArray = new XDPOINT[nums];
-                    PoseCalibDLL.GetTransedPointCloud(poseCalibAlgo, index, ref resultArray[0]);
+                    PoseCalibDLL.GetTransedPointCloud(poseCalibAlgo, index, ref resultArray[0],ref errCode);
                     XDPOINT[,] points = new XDPOINT[nums, 1];
                     for (int i = 0; i < nums; i++)
                         points[i, 0] = resultArray[i];
@@ -229,6 +232,11 @@ namespace SensorPoseCalibration
                         i++;
                     }
                 }
+                catch (Exception ex)
+                {
+                    string msg = ex.Message;
+                    return false;
+                }
                 finally
                 {
                     sr.Close();
@@ -314,6 +322,11 @@ namespace SensorPoseCalibration
                         }
                     }
                 }
+                catch(Exception ex)
+                {
+                    string msg = ex.Message;
+                    return false;
+                }
                 finally
                 {
                     sr.Close();
@@ -329,10 +342,11 @@ namespace SensorPoseCalibration
             return true;
         }
 
-        public bool SaveResultPose()
+        public bool SaveResultPose(string path,out string errCode)
         {
+            errCode = string.Empty;
             PoseCalibrationParam calibParam = paramManager.GetSelectedParam();
-            return PoseCalibDLL.SavePoseMatrix(poseCalibAlgo, calibParam.CalibResult.SavePath.pathName);
+            return PoseCalibDLL.SavePoseMatrix(poseCalibAlgo, path, ref errCode);
         }
 
         public void AlgoDispose()
@@ -362,14 +376,15 @@ namespace SensorPoseCalibration
         [DllImport("GC_ALGO.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void InitData(IntPtr pInstance);
 
+
         // 读取点云后，添加到pInstance中，目前5条依次添加
         [DllImport("GC_ALGO.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool AddPointCloud(IntPtr pInstance, ref XDPOINT pts, int num);
+        public static extern bool AddPointCloud(IntPtr pInstance, ref XDPOINT pts, int num, [MarshalAs(UnmanagedType.LPStr)]ref string errorInfo);
 
 
         // 读取用户设置的各条轨迹x, y, z轴数据后，依次添加，须与AddPointCloud中一一对应
         [DllImport("GC_ALGO.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool AddTrajInfo(IntPtr pInstance, ref double pts, int num);
+        public static extern bool AddTrajInfo(IntPtr pInstance, ref double pts, int num, [MarshalAs(UnmanagedType.LPStr)]ref string errorInfo);
 
 
         // 添加用户设置的初始姿态，单位为度
@@ -377,15 +392,17 @@ namespace SensorPoseCalibration
         public static extern void SetInitPose(IntPtr pInstance, double x, double y, double z);
 
 
+        // 设置迭代次数
+        [DllImport("GC_ALGO.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SetIterateNum(IntPtr pInstance, int num);
+
+        // 设置进度条窗口名称
+        [DllImport("GC_ALGO.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SetHWndName(IntPtr pInstance, [MarshalAs(UnmanagedType.LPStr)]string hwnd_name);
 
         // 计算传感器姿态，返回姿态及final_cost
         [DllImport("GC_ALGO.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool ComputeSensorPose(IntPtr pInstance, ref double pose_array, ref double final_cost);
-
-
-        // 设置迭代次数
-        [DllImport("GC_ALGO.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SetIterateNum(IntPtr pInstance,int num);
+        public static extern bool ComputeSensorPose(IntPtr pInstance, ref double pose_array, ref double final_cost, [MarshalAs(UnmanagedType.LPStr)]ref string errorInfo);
 
 
         //****************************************************************************
@@ -416,12 +433,12 @@ namespace SensorPoseCalibration
         //****************************************************************************
         // 保存矩阵
         [DllImport("GC_ALGO.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool SavePoseMatrix(IntPtr pInstance, [MarshalAs(UnmanagedType.LPStr)]string file_name);
+        public static extern bool SavePoseMatrix(IntPtr pInstance, [MarshalAs(UnmanagedType.LPStr)]string file_name, [MarshalAs(UnmanagedType.LPStr)]ref string errorInfo);
 
 
         // 得到单条变换后的点云
         [DllImport("GC_ALGO.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool GetTransedPointCloud(IntPtr pInstance, int index, ref XDPOINT pts);
+        public static extern bool GetTransedPointCloud(IntPtr pInstance, int index, ref XDPOINT pts, [MarshalAs(UnmanagedType.LPStr)]ref string errorInfo);
 
         // 得到点云的点数
         [DllImport("GC_ALGO.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -429,6 +446,6 @@ namespace SensorPoseCalibration
 
         // 得到点云的拟合球心及半径
         [DllImport("GC_ALGO.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GetTransedPointCloudFitInfo(IntPtr pInstance, int index,ref XDPOINT center,ref double radius);
+        public static extern void GetTransedPointCloudFitInfo(IntPtr pInstance, int index, ref XDPOINT center, ref double radius);
     }
 }

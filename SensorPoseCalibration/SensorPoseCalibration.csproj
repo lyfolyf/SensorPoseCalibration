@@ -44,9 +44,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\CommonStruct.dll</HintPath>
     </Reference>
-    <Reference Include="ComponentLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ExtDesigner\ComponentLib\bin\Release\ComponentLib.dll</HintPath>
+    <Reference Include="ComponentLib">
+      <HintPath>..\..\Others\00 组内编码\Management System\ManagerApp\ComponentLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -123,14 +122,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Form\ResultCenterRadiusShow.resx">
       <DependentUpon>ResultCenterRadiusShow.cs</DependentUpon>
     </EmbeddedResource>
@@ -139,6 +133,11 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -149,10 +148,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="bitbug_favicon.ico" />
+    <None Include="Resources\0757.jpg_wh1200.jpg" />
+    <None Include="Resources\8783.jpg_wh1200.jpg" />
+    <None Include="Resources\down.png" />
+    <None Include="Resources\right.png" />
+    <None Include="Resources\left.png" />
+    <None Include="Resources\front.png" />
+    <None Include="Resources\back.png" />
+    <None Include="Resources\up.png" />
+    <None Include="Resources\save as.png" />
+    <None Include="Resources\save_1.png" />
+    <None Include="Resources\open.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
