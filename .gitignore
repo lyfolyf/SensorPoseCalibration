@@ -1,0 +1,25 @@
+﻿################################################################################
+# 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
+################################################################################
+
+*.cache
+*.testlog
+*.manifest
+*.db-wal
+*.db-shm
+*.tlog
+*.log
+*.recipe
+*.idb
+*.iobj
+*.ipdb
+*.pdb
+Debug
+Release
+x64
+*.db
+*.exe
+*.ilk
+*.exe
+*.config
+*.opendb
